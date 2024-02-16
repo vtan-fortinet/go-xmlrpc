@@ -150,6 +150,26 @@ func TestStdDecoder_DecodeRaw(t *testing.T) {
 			expect: nil,
 			err:    fmt.Errorf(errFormatInvalidFieldTypeOrType, "struct", "map", "string"),
 		},
+		{
+			name:     "struct response empty",
+			testFile: "response_empty_string.xml",
+			v: &struct {
+				Struct struct {
+					Somestring string `xmlrpc:"somestring" json:"somestring"`
+				}
+			}{},
+			expect: &struct {
+				Struct struct {
+					Somestring string `xmlrpc:"somestring" json:"somestring"`
+				}
+			}{
+				Struct: struct {
+					Somestring string `xmlrpc:"somestring" json:"somestring"`
+				}{
+					Somestring: ``,
+				},
+			},
+		},
 	}
 
 	for _, tt := range tests {
